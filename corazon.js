@@ -96,7 +96,7 @@ camera.add(listener);
 const audio = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
 
-audioLoader.load("Zoe_-_Labios_Rotos.mp3", buffer => {
+audioLoader.load("musica.mp3", buffer => {
     audio.setBuffer(buffer);
     audio.setLoop(true);
     audio.setVolume(1);
