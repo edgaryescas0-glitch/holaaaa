@@ -102,6 +102,7 @@ audioLoader.load("musica.mp3", buffer => {
     audio.setVolume(1);
 });
 
+
 // Play al primer clic
 window.addEventListener("click", () => {
 
