@@ -1,4 +1,3 @@
-
 // -----------------------------------
 //   ESCENA
 // -----------------------------------
@@ -89,7 +88,10 @@ function animarParticulas() {
 
     particulas.geometry.attributes.position.needsUpdate = true;
 }
-//musica
+
+// -----------------------------------
+// AUDIO
+// -----------------------------------
 const listener = new THREE.AudioListener();
 camera.add(listener);
 
@@ -102,30 +104,21 @@ audioLoader.load("musica.mp3", buffer => {
     audio.setVolume(1);
 });
 
-
-// Play al primer clic
-window.addEventListener("click", () => {
-
-    // 🔥 Desbloqueo obligatorio en navegadores modernos
-    if (audio.context.state === "suspended") {
-        audio.context.resume();
-    }
-
-    if (!audio.isPlaying) {
-        audio.play();
-        console.log("Audio iniciado");
-    }
+// 🔥 BOTÓN PARA DESBLOQUEAR EL AUDIO 🔥
+document.getElementById("playBtn").addEventListener("click", () => {
+    if (audio.context.state === "suspended") audio.context.resume();
+    if (!audio.isPlaying) audio.play();
 });
 
+// ANALYZER
 let analyser = new THREE.AudioAnalyser(audio, 128);
 
-
-
-// ondas
+// -----------------------------------
+// ONDAS
+// -----------------------------------
 const canvasOndas = document.getElementById("ondas");
 const ctx = canvasOndas.getContext("2d");
 
-// 🔥 IMPORTANTE: asignar tamaño al inicio
 canvasOndas.width = window.innerWidth;
 canvasOndas.height = 150;
 
@@ -137,7 +130,6 @@ function dibujarOndas(dataArray) {
     const mitad = canvasOndas.width / 2;
     const slice = mitad / (dataArray.length - 1);
 
-    //izquierda
     for (let i = dataArray.length - 1; i >= 0; i--) {
         let x = mitad - i * slice;
         let y = canvasOndas.height - (dataArray[i] / 255) * canvasOndas.height;
@@ -146,7 +138,6 @@ function dibujarOndas(dataArray) {
         else ctx.lineTo(x, y);
     }
 
-    //derecha
     for (let i = 0; i < dataArray.length; i++) {
         let x = mitad + i * slice;
         let y = canvasOndas.height - (dataArray[i] / 255) * canvasOndas.height;
@@ -161,11 +152,9 @@ function dibujarOndas(dataArray) {
     ctx.stroke();
 }
 
-
-
-
-
-//animacion
+// -----------------------------------
+// ANIMACIÓN
+// -----------------------------------
 function animar() {
     requestAnimationFrame(animar);
 
@@ -184,6 +173,7 @@ function animar() {
 }
 animar();
 
+// -----------------------------------
 window.addEventListener("resize", () => {
     renderer.setSize(innerWidth, innerHeight);
     camera.aspect = innerWidth / innerHeight;
@@ -192,6 +182,7 @@ window.addEventListener("resize", () => {
     canvasOndas.width = innerWidth;
     canvasOndas.height = 150;
 });
+
 
 
 
